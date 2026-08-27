@@ -10,3 +10,25 @@ print("6. Statistics")
 print("7. Exit")
 
 value = int(input("What would you like to do? Please enter the desired number: "))
+
+expense_manager = ExpenseManager()
+
+if value == 1:
+    expense_manager.addExpense()
+
+elif value == 2:
+    expense_manager.showExpenses()
+elif value == 3:
+    expense_manager.searchExpenses()
+
+elif value == 4:
+    expense_manager.deleteExpense()
+
+elif value == 5:
+    expense_manager.totalExpenses()
+
+elif value == 6:
+    expense_manager.statistics()
+
+elif value == 7:
+    pass
