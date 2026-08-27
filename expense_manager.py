@@ -11,8 +11,16 @@ class ExpenseManager:
             for key, value in i.items():
                 print(f"{key}: {value}")
 
-    def searchExpenses(self):
-        pass
+    def searchExpenses(self, search):
+        found = False
+        for i in self.expense:
+            for key, value in i.items():
+                if search == value and (key == "title" or key == "category"):
+                    print(f"{key}: {value}")
+                    found = True
+
+        if found == False:
+            print("The specified cost was not found in the list!!")
 
     def deleteExpense(self):
         pass

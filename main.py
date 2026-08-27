@@ -35,7 +35,8 @@ def main():
             expense_manager.showExpenses()
 
         elif value == 3:
-            expense_manager.searchExpenses()
+            search = input("Please enter the search term: ")
+            expense_manager.searchExpenses(search)
 
         elif value == 4:
             expense_manager.deleteExpense()
