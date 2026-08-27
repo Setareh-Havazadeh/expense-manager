@@ -3,7 +3,11 @@ class ExpenseManager:
         self.expense = []
 
     def addExpense(self):
-        pass
+        title = input("Please enter the title: ")
+        amount = int(input("Please enter the amount: "))
+        category = input("Please enter the category: ")
+
+        self.expense.append({"title": title, "amount": amount, "category": category})
 
     def showExpenses(self):
         pass
