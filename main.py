@@ -1,34 +1,45 @@
 from expense_manager import ExpenseManager
 
-print("========== Expense Manager ==========")
-print("1. Add Expense")
-print("2. Show Expenses")
-print("3. Search Expenses")
-print("4. Delete Expense")
-print("5. Total Expenses")
-print("6. Statistics")
-print("7. Exit")
-
-value = int(input("What would you like to do? Please enter the desired number: "))
-
 expense_manager = ExpenseManager()
 
-if value == 1:
-    expense_manager.addExpense()
 
-elif value == 2:
-    expense_manager.showExpenses()
-elif value == 3:
-    expense_manager.searchExpenses()
+def main():
+    while True:
 
-elif value == 4:
-    expense_manager.deleteExpense()
+        print("========== Expense Manager ==========")
+        print("1. Add Expense")
+        print("2. Show Expenses")
+        print("3. Search Expenses")
+        print("4. Delete Expense")
+        print("5. Total Expenses")
+        print("6. Statistics")
+        print("7. Exit")
 
-elif value == 5:
-    expense_manager.totalExpenses()
+        value = int(
+            input("What would you like to do? Please enter the desired number: ")
+        )
 
-elif value == 6:
-    expense_manager.statistics()
+        if value == 1:
 
-elif value == 7:
-    pass
+            expense_manager.addExpense(title, amount, category)
+
+        elif value == 2:
+            expense_manager.showExpenses()
+        elif value == 3:
+            expense_manager.searchExpenses()
+
+        elif value == 4:
+            expense_manager.deleteExpense()
+
+        elif value == 5:
+            expense_manager.totalExpenses()
+
+        elif value == 6:
+            expense_manager.statistics()
+
+        elif value == 7:
+            break
+
+
+if __name__ == "__main__":
+    main()
