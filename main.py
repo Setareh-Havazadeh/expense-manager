@@ -21,7 +21,15 @@ def main():
 
         if value == 1:
 
-            expense_manager.addExpense(title, amount, category)
+            number = int(
+                input("How many do you intend to import? Enter the desired number: ")
+            )
+            for i in range(number):
+                title = input("Please enter the title: ")
+                amount = int(input("Please enter the amount: "))
+                category = input("Please enter the category: ")
+
+                expense_manager.addExpense(title, amount, category)
 
         elif value == 2:
             expense_manager.showExpenses()

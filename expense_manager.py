@@ -2,15 +2,13 @@ class ExpenseManager:
     def __init__(self):
         self.expense = []
 
-    def addExpense(self):
-        title = input("Please enter the title: ")
-        amount = int(input("Please enter the amount: "))
-        category = input("Please enter the category: ")
+    def addExpense(self, title, amount, category):
 
         self.expense.append({"title": title, "amount": amount, "category": category})
 
     def showExpenses(self):
-        pass
+        for i in self.expense:
+            print(i)
 
     def searchExpenses(self):
         pass
