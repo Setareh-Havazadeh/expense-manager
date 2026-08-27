@@ -8,7 +8,8 @@ class ExpenseManager:
 
     def showExpenses(self):
         for i in self.expense:
-            print(i)
+            for key, value in i.items():
+                print(f"{key}: {value}")
 
     def searchExpenses(self):
         pass

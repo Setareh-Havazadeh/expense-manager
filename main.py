@@ -33,6 +33,7 @@ def main():
 
         elif value == 2:
             expense_manager.showExpenses()
+
         elif value == 3:
             expense_manager.searchExpenses()
 
