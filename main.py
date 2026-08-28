@@ -47,7 +47,7 @@ def main():
 
         elif value == 6:
             expense_manager.statistics()
-
+            
         elif value == 7:
             break
 

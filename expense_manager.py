@@ -43,4 +43,16 @@ class ExpenseManager:
         return total
 
     def statistics(self):
-        pass
+        if len(self.expense) > 0:
+            print(f"Number of your expenses: {len(self.expense)}")
+            print(f"Your total costs: {self.totalExpenses()}")
+
+            maximum = 0
+            for i in self.expense:
+                if maximum < i["amount"]:
+                    maximum = i["amount"]
+
+            print(f"Your highest expense: {maximum}")
+        else:
+            print("You haven't entered any expenses, and your management list is empty!")
+
