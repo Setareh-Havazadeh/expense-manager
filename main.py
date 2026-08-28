@@ -49,7 +49,13 @@ def main():
             expense_manager.statistics()
             
         elif value == 7:
-            break
+            choos = input("Are you sure you want to exit?(Y/N)")
+            if choos == "Y":
+                print("You have logged out.")
+                break
+            elif choos == "N":
+                continue
+
 
 
 if __name__ == "__main__":
