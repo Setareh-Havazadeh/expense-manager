@@ -14,11 +14,9 @@ class ExpenseManager:
     def searchExpenses(self, search):
         found = False
         for i in self.expense:
-            for key, value in i.items():
-                if search == value and (key == "title" or key == "category"):
-                    print(f"{key}: {value}")
-                    found = True
-
+            if search == i["title"] or search == i["category"]:
+                print(f"title: {i['title']}, amount: {i['amount']}, category: {i['category']}")
+                found = True
         if found == False:
             print("The specified cost was not found in the list!!")
 
