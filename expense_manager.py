@@ -22,8 +22,18 @@ class ExpenseManager:
         if found == False:
             print("The specified cost was not found in the list!!")
 
-    def deleteExpense(self):
-        pass
+    def deleteExpense(self, del_title):
+        found = False
+        for i in self.expense:
+            if del_title == i["title"]:
+                self.expense.remove(i)
+                found = True
+                print("Successfully removed from the list.")
+            if found == True:
+                break
+
+        if found == False:
+            print("The specified cost was not found in the list!!")
 
     def totalExpenses(self):
         pass

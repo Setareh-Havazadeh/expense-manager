@@ -39,7 +39,8 @@ def main():
             expense_manager.searchExpenses(search)
 
         elif value == 4:
-            expense_manager.deleteExpense()
+            choos = input("To remove from the list, please enter the comment title:")
+            expense_manager.deleteExpense(choos)
 
         elif value == 5:
             expense_manager.totalExpenses()
