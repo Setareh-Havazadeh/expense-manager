@@ -1,56 +1,58 @@
 class ExpenseManager:
     def __init__(self):
-        self.expense = []
+        self.expenses = []
+
+    def get_expense_amounts(self):
+        expense_amounts = []
+        for expense in self.expenses:
+            expense_amounts.append(expense["amount"])
+
+        return expense_amounts
 
     def addExpense(self, title, amount, category):
 
-        self.expense.append({"title": title, "amount": amount, "category": category})
+        self.expenses.append({"title": title, "amount": amount, "category": category})
 
     def showExpenses(self):
-        for i in self.expense:
-            for key, value in i.items():
-                print(f"{key}: {value}")
+        for expense in self.expenses:
+                print(f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}")
 
     def searchExpenses(self, search):
-        found = False
-        for i in self.expense:
-            if search == i["title"] or search == i["category"]:
-                print(f"title: {i['title']}, amount: {i['amount']}, category: {i['category']}")
-                found = True
-        if found == False:
+        search_found = False
+        for expense in self.expenses:
+            if search == expense["title"] or search == expense["category"]:
+                print(f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}")
+                search_found = True
+        if not search_found:
             print("The specified cost was not found in the list!!")
 
     def deleteExpense(self, del_title):
-        found = False
-        for i in self.expense:
-            if del_title == i["title"]:
-                self.expense.remove(i)
-                found = True
+        expense_found = False
+        for expense in self.expenses:
+            if del_title == expense["title"]:
+                self.expenses.remove(expense)
+                expense_found = True
                 print("Successfully removed from the list.")
-            if found == True:
+            if expense_found:
                 break
 
-        if found == False:
+        if not expense_found:
             print("The specified cost was not found in the list!!")
 
     def totalExpenses(self):
-        total = 0
-        for i in self.expense:
-            total = total + i["amount"]
 
-        return total
+        expense_amounts = self.get_expense_amounts()
+        return sum(expense_amounts)
 
     def statistics(self):
-        if len(self.expense) > 0:
-            print(f"Number of your expenses: {len(self.expense)}")
+        if self.expenses:
+            print(f"Number of your expenses: {len(self.expenses)}")
             print(f"Your total costs: {self.totalExpenses()}")
 
-            maximum = 0
-            for i in self.expense:
-                if maximum < i["amount"]:
-                    maximum = i["amount"]
+            expense_amounts = self.get_expense_amounts()
 
-            print(f"Your highest expense: {maximum}")
+
+            print(f"Your highest expense: {max(expense_amounts)}")
         else:
             print("You haven't entered any expenses, and your management list is empty!")
 
