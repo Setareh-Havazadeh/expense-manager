@@ -24,7 +24,7 @@ def main():
 
         if value == 1:
             boolean = True
-            while boolean == True:
+            while boolean:
                 try:
                     number = int(
                         input("How many do you intend to import? Enter the desired number: ")
