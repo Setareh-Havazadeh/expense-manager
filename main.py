@@ -43,7 +43,7 @@ def main():
             expense_manager.deleteExpense(choos)
 
         elif value == 5:
-            expense_manager.totalExpenses()
+            print(f"Your total costs: {expense_manager.totalExpenses()}")
 
         elif value == 6:
             expense_manager.statistics()

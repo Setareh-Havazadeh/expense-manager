@@ -36,7 +36,11 @@ class ExpenseManager:
             print("The specified cost was not found in the list!!")
 
     def totalExpenses(self):
-        pass
+        total = 0
+        for i in self.expense:
+            total = total + i["amount"]
+
+        return total
 
     def statistics(self):
         pass
