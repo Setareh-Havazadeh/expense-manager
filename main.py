@@ -23,14 +23,31 @@ def main():
             continue
 
         if value == 1:
-
-            number = int(
-                input("How many do you intend to import? Enter the desired number: ")
-            )
+            boolean = True
+            while boolean == True:
+                try:
+                    number = int(
+                        input("How many do you intend to import? Enter the desired number: ")
+                    )
+                    boolean = False
+                except ValueError:
+                        print("Try again!")
+                        continue
+                    
+            
             for i in range(number):
-                title = input("Please enter the title: ")
-                amount = int(input("Please enter the amount: "))
-                category = input("Please enter the category: ")
+                boolean = True
+                while boolean:
+
+                    try:
+                        title = input("Please enter the title: ")
+                        amount = int(input("Please enter the amount: "))
+                        category = input("Please enter the category: ")
+                        boolean = False
+                    except ValueError:
+                        print("Try again!")
+                        continue
+                        
 
                 expense_manager.addExpense(title, amount, category)
 
@@ -38,6 +55,7 @@ def main():
             expense_manager.showExpenses()
 
         elif value == 3:
+            
             search = input("Please enter the search term: ")
             expense_manager.searchExpenses(search)
 
