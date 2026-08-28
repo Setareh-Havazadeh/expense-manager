@@ -14,10 +14,13 @@ def main():
         print("5. Total Expenses")
         print("6. Statistics")
         print("7. Exit")
-
-        value = int(
-            input("What would you like to do? Please enter the desired number: ")
-        )
+        try:
+            value = int(
+                input("What would you like to do? Please enter the desired number: ")
+            )
+        except ValueError:
+            print("Try again!")
+            continue
 
         if value == 1:
 
