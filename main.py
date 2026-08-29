@@ -1,45 +1,9 @@
 from expense_manager import ExpenseManager
+from input_handler import InputHandler
 
 expense_manager = ExpenseManager()
 
-def numeric_input():
-    while True:
-        try:
-            user_input = int(input())
-            if user_input > 0:
-                break
-            else:
-                print("Please try again and enter a positive number!!")
-        except ValueError:
-            print("Try again!")
-            continue
-
-    return user_input
-
-def text_input():
-
-    while True:
-        text = input()
-        if not text.isdigit() and len(text.strip()) > 0:
-            break
-
-    return text
-
-def get_expenses():
-
-    print ("Enter the number of expenses you wish to add to the list as a numerical value.")
-    expense_count = numeric_input()
-    expenses = []
-    for _ in range(expense_count):
-    
-        print("Please enter the title:")
-        title = text_input()
-        print("Please enter the amount: ")
-        amount = numeric_input()
-        print("Please enter the category: ")
-        category = text_input()
-        expenses.append({"title":title, "amount":amount, "category":category})
-    return expenses
+inputHandler = InputHandler()
 
 def main():
     while True:
@@ -54,12 +18,12 @@ def main():
         print("7. Exit")
         print("Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–7).")
         
-        menu_choice = numeric_input()
+        menu_choice = inputHandler.numeric_input()
         
         if 1 <= menu_choice <= 7:
         
             if menu_choice == 1:
-                expenses = get_expenses()
+                expenses = inputHandler.get_expenses()
                 for expense in expenses:
                     expense_manager.addExpense(expense["title"], expense["amount"], expense["category"])
 
@@ -69,12 +33,12 @@ def main():
             elif menu_choice == 3:
                 
                 print("Please enter the search term: ")
-                search_choice = text_input()
+                search_choice = inputHandler.text_input()
                 expense_manager.searchExpenses(search_choice)
 
             elif menu_choice == 4:
                 print("To remove from the list, please enter the comment title:")
-                remove_choice = text_input()
+                remove_choice = inputHandler.text_input()
                 expense_manager.deleteExpense(remove_choice)
 
             elif menu_choice == 5:
@@ -85,7 +49,7 @@ def main():
                 
             elif menu_choice == 7:
                 print("Are you sure you want to exit?(Y/N)")
-                exit_choice = text_input()
+                exit_choice = inputHandler.text_input()
                 if exit_choice == "Y":
                     print("You have logged out.")
                     break
