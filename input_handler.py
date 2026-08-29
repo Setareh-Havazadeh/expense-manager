@@ -1,6 +1,4 @@
-class InputHandler():
-    def __init__(self):
-        pass
+class InputHandler:
     def numeric_input(self):
         while True:
             try:

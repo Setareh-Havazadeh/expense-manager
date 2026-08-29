@@ -3,7 +3,7 @@ from input_handler import InputHandler
 
 expense_manager = ExpenseManager()
 
-inputHandler = InputHandler()
+input_handler = InputHandler()
 
 def main():
     while True:
@@ -18,12 +18,12 @@ def main():
         print("7. Exit")
         print("Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–7).")
         
-        menu_choice = inputHandler.numeric_input()
+        menu_choice = input_handler.numeric_input()
         
         if 1 <= menu_choice <= 7:
         
             if menu_choice == 1:
-                expenses = inputHandler.get_expenses()
+                expenses = input_handler.get_expenses()
                 for expense in expenses:
                     expense_manager.addExpense(expense["title"], expense["amount"], expense["category"])
 
@@ -33,12 +33,12 @@ def main():
             elif menu_choice == 3:
                 
                 print("Please enter the search term: ")
-                search_choice = inputHandler.text_input()
+                search_choice = input_handler.text_input()
                 expense_manager.searchExpenses(search_choice)
 
             elif menu_choice == 4:
                 print("To remove from the list, please enter the comment title:")
-                remove_choice = inputHandler.text_input()
+                remove_choice = input_handler.text_input()
                 expense_manager.deleteExpense(remove_choice)
 
             elif menu_choice == 5:
@@ -49,7 +49,7 @@ def main():
                 
             elif menu_choice == 7:
                 print("Are you sure you want to exit?(Y/N)")
-                exit_choice = inputHandler.text_input()
+                exit_choice = input_handler.text_input()
                 if exit_choice == "Y":
                     print("You have logged out.")
                     break
