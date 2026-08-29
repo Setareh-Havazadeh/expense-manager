@@ -21,8 +21,7 @@ class InputHandler:
                 break
             else:
                 print("Please search again and enter the correct text!! ")
-                continue
-            
+
         return text
 
     def get_expenses(self):
