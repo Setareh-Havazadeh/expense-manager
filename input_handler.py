@@ -19,7 +19,10 @@ class InputHandler:
             text = input()
             if not text.isdigit() and len(text.strip()) > 0:
                 break
-
+            else:
+                print("Please search again and enter the correct text!! ")
+                continue
+            
         return text
 
     def get_expenses(self):
