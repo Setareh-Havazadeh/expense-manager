@@ -30,24 +30,24 @@ class MenuHandler:
                 if menu_choice == 1:
                     expenses = self.input_handler.get_expenses()
                     for expense in expenses:
-                        self.expense_manager.addExpense(expense["title"], expense["amount"], expense["category"])
+                        self.expense_manager.add_expense(expense["title"], expense["amount"], expense["category"])
 
                 elif menu_choice == 2:
-                    self.expense_manager.showExpenses()
+                    self.expense_manager.show_expenses()
 
                 elif menu_choice == 3:
                     
                     print("Please enter the search term: ")
                     search_choice = self.input_handler.text_input()
-                    self.expense_manager.searchExpenses(search_choice)
+                    self.expense_manager.searche_xpenses(search_choice)
 
                 elif menu_choice == 4:
                     print("To remove from the list, please enter the comment title:")
                     remove_choice = self.input_handler.text_input()
-                    self.expense_manager.deleteExpense(remove_choice)
+                    self.expense_manager.delete_expense(remove_choice)
 
                 elif menu_choice == 5:
-                    print(f"Your total costs: {self.expense_manager.totalExpenses()}")
+                    print(f"Your total costs: {self.expense_manager.total_expenses()}")
 
                 elif menu_choice == 6:
                     self.expense_manager.statistics()

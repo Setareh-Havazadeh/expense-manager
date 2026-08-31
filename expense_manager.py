@@ -9,15 +9,15 @@ class ExpenseManager:
 
         return expense_amounts
 
-    def addExpense(self, title, amount, category):
+    def add_expense(self, title, amount, category):
 
         self.expenses.append({"title": title, "amount": amount, "category": category})
 
-    def showExpenses(self):
+    def show_expenses(self):
         for expense in self.expenses:
                 print(f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}")
 
-    def searchExpenses(self, search):
+    def searche_xpenses(self, search):
         search_found = False
         for expense in self.expenses:
             if search == expense["title"] or search == expense["category"]:
@@ -26,7 +26,7 @@ class ExpenseManager:
         if not search_found:
             print("The specified cost was not found in the list!!")
 
-    def deleteExpense(self, del_title):
+    def delete_expense(self, del_title):
         expense_found = False
         for expense in self.expenses:
             if del_title == expense["title"]:
@@ -39,7 +39,7 @@ class ExpenseManager:
         if not expense_found:
             print("The specified cost was not found in the list!!")
 
-    def totalExpenses(self):
+    def total_expenses(self):
 
         expense_amounts = self.get_expense_amounts()
         return sum(expense_amounts)
@@ -47,7 +47,7 @@ class ExpenseManager:
     def statistics(self):
         if self.expenses:
             print(f"Number of your expenses: {len(self.expenses)}")
-            print(f"Your total costs: {self.totalExpenses()}")
+            print(f"Your total costs: {self.total_expenses()}")
 
             expense_amounts = self.get_expense_amounts()
 
