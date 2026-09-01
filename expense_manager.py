@@ -1,3 +1,4 @@
+from datetime import date
 class ExpenseManager:
     def __init__(self):
         self.expenses = []
@@ -10,13 +11,13 @@ class ExpenseManager:
         return expense_amounts
 
     def add_expense(self, title, amount, category):
-
-        self.expenses.append({"title": title, "amount": amount, "category": category})
+        add_date = date.today()
+        self.expenses.append({"title": title, "amount": amount, "category": category, "date": add_date})
 
     def show_expenses(self):
         for expense in self.expenses:
             print(
-                f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}"
+                f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
             )
 
     def searche_xpenses(self, search):
@@ -24,7 +25,7 @@ class ExpenseManager:
         for expense in self.expenses:
             if search == expense["title"] or search == expense["category"]:
                 print(
-                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}"
+                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
                 )
                 search_found = True
         if not search_found:
