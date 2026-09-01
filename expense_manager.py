@@ -1,8 +1,10 @@
 from datetime import date
+
+
 class ExpenseManager:
     def __init__(self):
         self.expenses = []
-
+        self.budget = 0
     def get_expense_amounts(self):
         expense_amounts = []
         for expense in self.expenses:
@@ -12,7 +14,9 @@ class ExpenseManager:
 
     def add_expense(self, title, amount, category):
         add_date = date.today()
-        self.expenses.append({"title": title, "amount": amount, "category": category, "date": add_date})
+        self.expenses.append(
+            {"title": title, "amount": amount, "category": category, "date": add_date}
+        )
 
     def show_expenses(self):
         for expense in self.expenses:
@@ -61,3 +65,14 @@ class ExpenseManager:
             print(
                 "You haven't entered any expenses, and your management list is empty!"
             )
+
+    def set_budget(self, budget):
+        self.budget = budget
+
+    def show_budget(self):
+        total = self.total_expenses()
+        remaining = self.budget - total
+        if self.budget:
+            print(f"Budget: {self.budget}, Total Expenses: {total}, Remaining Budget: {remaining}")
+        else:
+            print("Your total budget is empty; please enter an amount and try again.")

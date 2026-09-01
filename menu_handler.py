@@ -16,9 +16,11 @@ class MenuHandler:
         print("4. Delete Expense")
         print("5. Total Expenses")
         print("6. Statistics")
-        print("7. Exit")
+        print("7. Set Budget")
+        print("8. Budget Status")
+        print("9. Exit")
         print(
-            "Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–7)."
+            "Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–9)."
         )
         menu_choice = self.input_handler.numeric_input()
         return menu_choice
@@ -27,7 +29,7 @@ class MenuHandler:
 
         while True:
             menu_choice = self.show_menu()
-            if 1 <= menu_choice <= 7:
+            if 1 <= menu_choice <= 9:
 
                 if menu_choice == 1:
                     expenses = self.input_handler.get_expenses()
@@ -57,6 +59,14 @@ class MenuHandler:
                     self.expense_manager.statistics()
 
                 elif menu_choice == 7:
+                    print("Please enter the total budget: ")
+                    budget = self.input_handler.numeric_input()
+                    self.expense_manager.set_budget(budget)
+
+                elif menu_choice == 8:
+                    self.expense_manager.show_budget()
+
+                elif menu_choice == 9:
                     print("Are you sure you want to exit?(Y/N)")
                     exit_choice = self.input_handler.text_input()
                     if exit_choice == "Y":
