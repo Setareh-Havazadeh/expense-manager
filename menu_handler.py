@@ -17,26 +17,30 @@ class MenuHandler:
         print("5. Total Expenses")
         print("6. Statistics")
         print("7. Exit")
-        print("Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–7).")
+        print(
+            "Enter the desired number from the list above.\nPlease ensure the selected number is within the range of the list (1–7)."
+        )
         menu_choice = self.input_handler.numeric_input()
         return menu_choice
 
     def menu(self):
-        
+
         while True:
             menu_choice = self.show_menu()
             if 1 <= menu_choice <= 7:
-            
+
                 if menu_choice == 1:
                     expenses = self.input_handler.get_expenses()
                     for expense in expenses:
-                        self.expense_manager.add_expense(expense["title"], expense["amount"], expense["category"])
+                        self.expense_manager.add_expense(
+                            expense["title"], expense["amount"], expense["category"]
+                        )
 
                 elif menu_choice == 2:
                     self.expense_manager.show_expenses()
 
                 elif menu_choice == 3:
-                    
+
                     print("Please enter the search term: ")
                     search_choice = self.input_handler.text_input()
                     self.expense_manager.searche_xpenses(search_choice)
@@ -51,7 +55,7 @@ class MenuHandler:
 
                 elif menu_choice == 6:
                     self.expense_manager.statistics()
-                    
+
                 elif menu_choice == 7:
                     print("Are you sure you want to exit?(Y/N)")
                     exit_choice = self.input_handler.text_input()
@@ -63,7 +67,3 @@ class MenuHandler:
             else:
                 print("Please select from the specified range (1 to 7).try agin!!")
                 continue
-
-
-
-

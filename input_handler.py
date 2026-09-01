@@ -26,16 +26,18 @@ class InputHandler:
 
     def get_expenses(self):
 
-        print ("Enter the number of expenses you wish to add to the list as a numerical value.")
+        print(
+            "Enter the number of expenses you wish to add to the list as a numerical value."
+        )
         expense_count = self.numeric_input()
         expenses = []
         for _ in range(expense_count):
-        
+
             print("Please enter the title:")
             title = self.text_input()
             print("Please enter the amount: ")
             amount = self.numeric_input()
             print("Please enter the category: ")
             category = self.text_input()
-            expenses.append({"title":title, "amount":amount, "category":category})
+            expenses.append({"title": title, "amount": amount, "category": category})
         return expenses

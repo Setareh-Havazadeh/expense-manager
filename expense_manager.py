@@ -15,13 +15,17 @@ class ExpenseManager:
 
     def show_expenses(self):
         for expense in self.expenses:
-                print(f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}")
+            print(
+                f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}"
+            )
 
     def searche_xpenses(self, search):
         search_found = False
         for expense in self.expenses:
             if search == expense["title"] or search == expense["category"]:
-                print(f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}")
+                print(
+                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}"
+                )
                 search_found = True
         if not search_found:
             print("The specified cost was not found in the list!!")
@@ -51,8 +55,8 @@ class ExpenseManager:
 
             expense_amounts = self.get_expense_amounts()
 
-
             print(f"Your highest expense: {max(expense_amounts)}")
         else:
-            print("You haven't entered any expenses, and your management list is empty!")
-
+            print(
+                "You haven't entered any expenses, and your management list is empty!"
+            )
