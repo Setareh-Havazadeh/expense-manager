@@ -1,10 +1,13 @@
 from datetime import date
+from itertools import count
+from unicodedata import category
 
 
 class ExpenseManager:
     def __init__(self):
         self.expenses = []
         self.budget = 0
+
     def get_expense_amounts(self):
         expense_amounts = []
         for expense in self.expenses:
@@ -19,9 +22,44 @@ class ExpenseManager:
         )
 
     def show_expenses(self):
-        for expense in self.expenses:
+        categorys = []
+        for expenses in self.expenses:
             print(
-                f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
+                f"title: {expenses['title']}, amount: {expenses['amount']}, category: {expenses['category']}, date: {expenses['date']}"
+            )
+            categorys.append(
+                {"category": expenses["category"], "amount": expenses["amount"]}
+            )
+        print("========================================================")
+        total_categories = []
+        for category in categorys:
+            found = False
+            if total_categories:
+                for categoyies in total_categories:
+                    if categoyies["category"] == category["category"]:
+                        categoyies["count"] += 1
+                        categoyies["costs"] += category["amount"]
+                        found = True
+                if found == False:
+                    total_categories.append(
+                        {
+                            "category": category["category"],
+                            "count": 1,
+                            "costs": category["amount"],
+                        }
+                    )
+            else:
+                total_categories.append(
+                    {
+                        "category": category["category"],
+                        "count": 1,
+                        "costs": category["amount"],
+                    }
+                )
+
+        for categories in total_categories:
+            print(
+                f"Category Name: {categories['category']}, Number of expenses in this category: {categories['count']}, Total costs: {categories['costs']}"
             )
 
     def searche_xpenses(self, search):
@@ -73,6 +111,8 @@ class ExpenseManager:
         total = self.total_expenses()
         remaining = self.budget - total
         if self.budget:
-            print(f"Budget: {self.budget}, Total Expenses: {total}, Remaining Budget: {remaining}")
+            print(
+                f"Budget: {self.budget}, Total Expenses: {total}, Remaining Budget: {remaining}"
+            )
         else:
             print("Your total budget is empty; please enter an amount and try again.")
