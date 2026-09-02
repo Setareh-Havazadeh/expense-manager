@@ -1,3 +1,4 @@
+from ast import main
 from datetime import date
 from itertools import count
 from unicodedata import category
@@ -15,6 +16,36 @@ class ExpenseManager:
 
         return expense_amounts
 
+    def category_summary(self):
+
+        total_categories = []
+        for categories in self.expenses:
+            found = False
+            if total_categories:
+                for categorys in total_categories:
+                    if categorys["category"] == categories["category"]:
+                        categorys["count"] += 1
+                        categorys["costs"] += categories["amount"]
+                        found = True
+                if found == False:
+                    total_categories.append(
+                        {
+                            "category": categories["category"],
+                            "count": 1,
+                            "costs": categories["amount"],
+                        }
+                    )
+            else:
+                total_categories.append(
+                    {
+                        "category": categories["category"],
+                        "count": 1,
+                        "costs": categories["amount"],
+                    }
+                )
+
+        return total_categories
+
     def add_expense(self, title, amount, category):
         add_date = date.today()
         self.expenses.append(
@@ -22,44 +53,10 @@ class ExpenseManager:
         )
 
     def show_expenses(self):
-        categorys = []
+
         for expenses in self.expenses:
             print(
                 f"title: {expenses['title']}, amount: {expenses['amount']}, category: {expenses['category']}, date: {expenses['date']}"
-            )
-            categorys.append(
-                {"category": expenses["category"], "amount": expenses["amount"]}
-            )
-        print("========================================================")
-        total_categories = []
-        for category in categorys:
-            found = False
-            if total_categories:
-                for categoyies in total_categories:
-                    if categoyies["category"] == category["category"]:
-                        categoyies["count"] += 1
-                        categoyies["costs"] += category["amount"]
-                        found = True
-                if found == False:
-                    total_categories.append(
-                        {
-                            "category": category["category"],
-                            "count": 1,
-                            "costs": category["amount"],
-                        }
-                    )
-            else:
-                total_categories.append(
-                    {
-                        "category": category["category"],
-                        "count": 1,
-                        "costs": category["amount"],
-                    }
-                )
-
-        for categories in total_categories:
-            print(
-                f"Category Name: {categories['category']}, Number of expenses in this category: {categories['count']}, Total costs: {categories['costs']}"
             )
 
     def searche_xpenses(self, search):
@@ -93,12 +90,25 @@ class ExpenseManager:
 
     def statistics(self):
         if self.expenses:
+
             print(f"Number of your expenses: {len(self.expenses)}")
+
             print(f"Your total costs: {self.total_expenses()}")
 
             expense_amounts = self.get_expense_amounts()
 
             print(f"Your highest expense: {max(expense_amounts)}")
+
+            print(f"Your lowest cost: {min(expense_amounts)}")
+
+            print(f"Your average costs: {sum(expense_amounts)/len(expense_amounts)}")
+
+            print("============ Category Statistics ============")
+            category_statistics = self.category_summary()
+            for category in category_statistics:
+                print(
+                    f"Category Name: {category['category']}, \t \nNumber of expenses in this category: {category['count']}, \t \nTotal costs: {category['costs']} \n"
+                )
         else:
             print(
                 "You haven't entered any expenses, and your management list is empty!"
