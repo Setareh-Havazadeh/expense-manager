@@ -1,12 +1,17 @@
-from ast import main
 from datetime import date
-from itertools import count
-from unicodedata import category
+import json
+import os
 
 
 class ExpenseManager:
     def __init__(self):
-        self.expenses = []
+
+        if os.path.exists("expenses.json"):
+            with open("expenses.json", "r") as file:
+                self.expenses = json.load(file)
+        else:
+            self.expenses = []
+
         self.budget = 0
 
     def get_expense_amounts(self):
@@ -46,20 +51,27 @@ class ExpenseManager:
 
         return total_categories
 
+    def save_expenses(self):
+        with open("expenses.json", "w", encoding="utf-8") as file:
+            json.dump(self.expenses, file, ensure_ascii=False, indent=4)
+
     def add_expense(self, title, amount, category):
-        add_date = date.today()
+        add_date = date.today().isoformat()
         self.expenses.append(
             {"title": title, "amount": amount, "category": category, "date": add_date}
         )
 
+        self.save_expenses()
+
     def show_expenses(self):
+        if self.expenses:
 
-        for expenses in self.expenses:
-            print(
-                f"title: {expenses['title']}, amount: {expenses['amount']}, category: {expenses['category']}, date: {expenses['date']}"
-            )
+            for expense in self.expenses:
+                print(
+                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
+                )
 
-    def searche_xpenses(self, search):
+    def search_expenses(self, search):
         search_found = False
         for expense in self.expenses:
             if search == expense["title"] or search == expense["category"]:
@@ -77,7 +89,7 @@ class ExpenseManager:
                 self.expenses.remove(expense)
                 expense_found = True
                 print("Successfully removed from the list.")
-            if expense_found:
+                self.save_expenses()
                 break
 
         if not expense_found:
