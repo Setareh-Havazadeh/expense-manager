@@ -82,6 +82,21 @@ class ExpenseManager:
         if not search_found:
             print("The specified cost was not found in the list!!")
 
+    def edite_expense(self, edite_title, new_title, new_amount, new_category):
+        expense_found = False
+        for expense in self.expenses:
+            if edite_title == expense["title"]:
+                expense["title"] = new_title
+                expense["amount"] = new_amount
+                expense["category"] = new_category
+                expense_found = True
+                print("Successfully updated the list.")
+                self.save_expenses()
+                break
+
+        if not expense_found:
+            print("The specified cost was not found in the list!!")
+
     def delete_expense(self, del_title):
         expense_found = False
         for expense in self.expenses:
