@@ -73,8 +73,9 @@ class ExpenseManager:
 
     def search_expenses(self, search):
         search_found = False
+        search_lower = search.lower()
         for expense in self.expenses:
-            if search == expense["title"] or search == expense["category"]:
+            if search_lower in expense["title"].lower() or search_lower in expense["category"].lower():
                 print(
                     f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
                 )
@@ -97,18 +98,31 @@ class ExpenseManager:
         if not expense_found:
             print("The specified cost was not found in the list!!")
 
-    def delete_expense(self, del_title):
+    def delete_expense(self, search_title):
         expense_found = False
+        search_title_lower = search_title.lower()
+        matching_expenses = []
+        match_count = 0
         for expense in self.expenses:
-            if del_title == expense["title"]:
-                self.expenses.remove(expense)
+            if search_title_lower in expense["title"].lower():
+                match_count += 1
+                print(
+                    f"{match_count}.title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
+                    )
                 expense_found = True
-                print("Successfully removed from the list.")
-                self.save_expenses()
-                break
 
+                matching_expenses.append(expense)
         if not expense_found:
-            print("The specified cost was not found in the list!!")
+                    print("The specified cost was not found in the list!!")
+        else:
+
+            user_choice = int(input("Which item do you intend to delete? "))
+            if user_choice > 0 and user_choice <= len(matching_expenses) :
+                self.expenses.remove(matching_expenses[user_choice - 1])
+                print("Expense deleted successfully.")
+                self.save_expenses()
+            else:
+                print("Invalid selection. Please enter a number from the list.")
 
     def total_expenses(self):
 
