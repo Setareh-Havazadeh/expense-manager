@@ -1,6 +1,7 @@
 from datetime import date
 import json
 import os
+from input_handler import InputHandler
 
 
 class ExpenseManager:
@@ -13,44 +14,49 @@ class ExpenseManager:
             self.expenses = []
 
         self.budget = 0
+        self.input_handler = InputHandler()
+
+    def format_expense(self, expense):
+
+        return f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
+
+    def find_expenses(self, find):
+        results = []
+        find_lower = find.lower()
+        if self.expenses:
+            for expense in self.expenses:
+                if (
+                    find_lower in expense["title"].lower()
+                    or find_lower in expense["category"].lower()
+                ):
+                    results.append(expense)
+        else:
+            print(
+                "You haven't entered any expenses, and your management list is empty!"
+            )
+
+        return results
 
     def get_expense_amounts(self):
-        expense_amounts = []
-        for expense in self.expenses:
-            expense_amounts.append(expense["amount"])
-
-        return expense_amounts
+        return [expense["amount"] for expense in self.expenses]
 
     def category_summary(self):
 
-        total_categories = []
-        for categories in self.expenses:
-            found = False
-            if total_categories:
-                for categorys in total_categories:
-                    if categorys["category"] == categories["category"]:
-                        categorys["count"] += 1
-                        categorys["costs"] += categories["amount"]
-                        found = True
-                if found == False:
-                    total_categories.append(
-                        {
-                            "category": categories["category"],
-                            "count": 1,
-                            "costs": categories["amount"],
-                        }
-                    )
+        category_totals = {}
+        for expense in self.expenses:
+            category = expense["category"]
+            if category in category_totals:
+                category_totals[category]["count"] += 1
+                category_totals[category]["costs"] += expense["amount"]
             else:
-                total_categories.append(
-                    {
-                        "category": categories["category"],
-                        "count": 1,
-                        "costs": categories["amount"],
-                    }
-                )
+                category_totals[category] = {
+                    "category": category,
+                    "count": 1,
+                    "costs": expense["amount"],
+                }
 
-        return total_categories
-
+        return list(category_totals.values())
+    
     def save_expenses(self):
         with open("expenses.json", "w", encoding="utf-8") as file:
             json.dump(self.expenses, file, ensure_ascii=False, indent=4)
@@ -67,26 +73,21 @@ class ExpenseManager:
         if self.expenses:
 
             for expense in self.expenses:
-                print(
-                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
-                )
+                print(self.format_expense(expense))
 
     def search_expenses(self, search):
-        search_found = False
-        search_lower = search.lower()
-        for expense in self.expenses:
-            if search_lower in expense["title"].lower() or search_lower in expense["category"].lower():
-                print(
-                    f"title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
-                )
-                search_found = True
-        if not search_found:
-            print("The specified cost was not found in the list!!")
+        result = self.find_expenses(search)
+        if result:
+            for expense in result:
+                print(self.format_expense(expense))
 
-    def edite_expense(self, edite_title, new_title, new_amount, new_category):
+        else:
+            print("Your list is empty.")
+
+    def edit_expense(self, title, new_title, new_amount, new_category):
         expense_found = False
         for expense in self.expenses:
-            if edite_title == expense["title"]:
+            if title == expense["title"]:
                 expense["title"] = new_title
                 expense["amount"] = new_amount
                 expense["category"] = new_category
@@ -99,30 +100,22 @@ class ExpenseManager:
             print("The specified cost was not found in the list!!")
 
     def delete_expense(self, search_title):
-        expense_found = False
-        search_title_lower = search_title.lower()
-        matching_expenses = []
         match_count = 0
-        for expense in self.expenses:
-            if search_title_lower in expense["title"].lower():
+        result = self.find_expenses(search_title)
+        if result:
+            for expense in result:
                 match_count += 1
-                print(
-                    f"{match_count}.title: {expense['title']}, amount: {expense['amount']}, category: {expense['category']}, date: {expense['date']}"
-                    )
-                expense_found = True
+                print(f"{match_count}.{self.format_expense(expense)}")
 
-                matching_expenses.append(expense)
-        if not expense_found:
-                    print("The specified cost was not found in the list!!")
-        else:
-
-            user_choice = int(input("Which item do you intend to delete? "))
-            if user_choice > 0 and user_choice <= len(matching_expenses) :
-                self.expenses.remove(matching_expenses[user_choice - 1])
+            user_choice = self.input_handler.numeric_input()
+            if user_choice > 0 and user_choice <= len(result):
+                self.expenses.remove(result[user_choice - 1])
                 print("Expense deleted successfully.")
                 self.save_expenses()
             else:
                 print("Invalid selection. Please enter a number from the list.")
+        else:
+            print("Your list is empty.")
 
     def total_expenses(self):
 
@@ -134,9 +127,9 @@ class ExpenseManager:
 
             print(f"Number of your expenses: {len(self.expenses)}")
 
-            print(f"Your total costs: {self.total_expenses()}")
-
             expense_amounts = self.get_expense_amounts()
+
+            print(f"Your total costs: {sum(expense_amounts)}")
 
             print(f"Your highest expense: {max(expense_amounts)}")
 

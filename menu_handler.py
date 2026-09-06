@@ -57,7 +57,9 @@ class MenuHandler:
                     new_amount = self.input_handler.numeric_input()
                     print("Please enter the new category:")
                     new_category = self.input_handler.text_input()
-                    self.expense_manager.edite_expense(edit_choice, new_title, new_amount, new_category)
+                    self.expense_manager.edit_expense(
+                        edit_choice, new_title, new_amount, new_category
+                    )
 
                 elif menu_choice == 5:
                     print("Please enter the title of the expense you want to delete:")
