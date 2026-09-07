@@ -1,6 +1,7 @@
 import json
 
 from expense_manager import ExpenseManager
+import expense_manager
 
 
 def test_total_expenses():
@@ -567,3 +568,68 @@ def test_delete_expense_save():
 
     assert len(data) == 1
     assert data[0]["title"] == "Expense 2"
+
+def test_budget_management():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+    expense_manager.set_budget(100)
+
+    assert expense_manager.budget == 100
+
+def test_budget_management_negative():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+    expense_manager.set_budget(-50)
+
+    assert expense_manager.budget == -50
+
+    
+def test_budget_management_remaining():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+    expense_manager.set_budget(100)
+    total_expenses = expense_manager.total_expenses()
+    remaining_budget = expense_manager.budget - total_expenses
+
+
+    assert total_expenses == 30
+    assert remaining_budget ==70
