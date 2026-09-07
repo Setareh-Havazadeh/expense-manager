@@ -496,3 +496,74 @@ def test_edit_expense_save():
     assert data[0]["title"] ==  "Expense 5"
     assert data[0]["amount"] == 40
     assert data[0]["category"] == "Category 5"
+
+def test_delete_expense():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+
+    expense_manager.delete_expense(expense_manager.expenses[0])
+
+    assert len(expense_manager.expenses) == 1
+    assert expense_manager.expenses[0]["title"] == "Expense 2"
+
+def test_delete_expense_invalid():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        }
+    ]
+
+    invalid_expense = {
+        "title": "Invalid Expense",
+        "amount": 20,
+        "category": "Category 2",
+        "date": "2023-01-02",
+    }
+
+    expense_manager.delete_expense(invalid_expense)
+
+    assert len(expense_manager.expenses) == 1
+    assert expense_manager.expenses[0]["title"] == "Expense 1"
+
+
+def test_delete_expense_save():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+
+    expense_manager.delete_expense(expense_manager.expenses[0])
+
+    with open("expenses.json", "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    assert len(data) == 1
+    assert data[0]["title"] == "Expense 2"
