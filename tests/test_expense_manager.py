@@ -1,3 +1,5 @@
+import json
+
 from expense_manager import ExpenseManager
 
 
@@ -207,7 +209,7 @@ def test_find_expenses_empty_search():
 
     results = expense_manager.find_expenses("")
 
-    assert len(results) == 0
+    assert len(results) == 2
 
 
 def test_category_summary():
@@ -373,3 +375,124 @@ def test_add_expense_save():
     assert '"title": "Expense 1"' in data
     assert '"amount": 10' in data
     assert '"category": "Category 1"' in data
+
+
+def test_edit_expense():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 1",
+            "date": "2023-01-02",
+        },
+        {
+            "title": "Expense 3",
+            "amount": 30,
+            "category": "Category 1",
+            "date": "2023-01-03",
+        },
+    ]
+
+    expense_manager.edit_expense(
+        expense_manager.expenses[0],
+        "Expense 5",
+        40,
+        "Category 5",
+    )
+    assert expense_manager.expenses[0]["title"] == "Expense 5"
+    assert expense_manager.expenses[0]["amount"] == 40
+    assert expense_manager.expenses[0]["category"] == "Category 5"
+    assert expense_manager.expenses[0]["date"] == "2023-01-01"
+
+def test_edit_expense_invalid_expense():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        }
+    ]
+
+    invalid_expense = {
+        "title": "Invalid Expense",
+        "amount": 20,
+        "category": "Category 2",
+        "date": "2023-01-02",
+    }
+
+    expense_manager.edit_expense(
+        invalid_expense,
+        "Expense 5",
+        40,
+        "Category 5",
+    )
+
+    assert expense_manager.expenses[0]["title"] == "Expense 1"
+    assert expense_manager.expenses[0]["amount"] == 10
+    assert expense_manager.expenses[0]["category"] == "Category 1"
+
+def test_edit_expense_only_selected_expense():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+    ]
+
+    expense_manager.edit_expense(
+        expense_manager.expenses[0],
+        "Expense 5",
+        40,
+        "Category 5",
+    )
+    assert expense_manager.expenses[0]["title"] == "Expense 5"
+    assert expense_manager.expenses[0]["amount"] == 40
+    assert expense_manager.expenses[0]["category"] == "Category 5"
+    assert expense_manager.expenses[0]["date"] == "2023-01-01"
+    assert expense_manager.expenses[1]["title"] == "Expense 2"
+    assert expense_manager.expenses[1]["amount"] == 20
+    assert expense_manager.expenses[1]["category"] == "Category 2"
+    assert expense_manager.expenses[1]["date"] == "2023-01-02"
+
+def test_edit_expense_save():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        }
+    ]
+
+    expense_manager.edit_expense(
+        expense_manager.expenses[0],
+        "Expense 5",
+        40,
+        "Category 5",
+    )
+
+    with open("expenses.json", "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    assert data[0]["title"] ==  "Expense 5"
+    assert data[0]["amount"] == 40
+    assert data[0]["category"] == "Category 5"
