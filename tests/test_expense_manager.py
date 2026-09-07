@@ -100,3 +100,65 @@ def test_find_expenses_empty_search():
     results = expense_manager.find_expenses("")
 
     assert len(results) == 0
+def test_category_summary():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {"title": "Expense 1", "amount": 10, "category": "Category 1", "date": "2023-01-01"},
+        {"title": "Expense 2", "amount": 20, "category": "Category 2", "date": "2023-01-02"},
+        {"title": "Expense 3", "amount": 30, "category": "Category 1", "date": "2023-01-03"},
+    ]
+
+    summary = expense_manager.category_summary()
+
+    assert len(summary) == 2
+    assert summary[0]["category"] == "Category 1"
+    assert summary[0]["count"] == 2
+    assert summary[0]["costs"] == 40
+    assert summary[1]["category"] == "Category 2"
+    assert summary[1]["count"] == 1
+    assert summary[1]["costs"] == 20
+
+def test_category_summary_empty():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = []
+
+    summary = expense_manager.category_summary()
+
+    assert len(summary) == 0
+
+def test_category_summary_single_category():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {"title": "Expense 1", "amount": 10, "category": "Category 1", "date": "2023-01-01"},
+        {"title": "Expense 2", "amount": 20, "category": "Category 1", "date": "2023-01-02"},
+        {"title": "Expense 3", "amount": 30, "category": "Category 1", "date": "2023-01-03"},
+    ]
+
+    summary = expense_manager.category_summary()
+
+    assert len(summary) == 1
+    assert summary[0]["category"] == "Category 1"
+    assert summary[0]["count"] == 3
+    assert summary[0]["costs"] == 60
+
+def test_category_summary_multiple_categories():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {"title": "Expense 1", "amount": 10, "category": "Category 1", "date": "2023-01-01"},
+        {"title": "Expense 2", "amount": 20, "category": "Category 2", "date": "2023-01-02"},
+        {"title": "Expense 3", "amount": 30, "category": "Category 3", "date": "2023-01-03"},
+    ]
+
+    summary = expense_manager.category_summary()
+
+    assert len(summary) == 3
+    assert summary[0]["category"] == "Category 1"
+    assert summary[0]["count"] == 1
+    assert summary[0]["costs"] == 10
+    assert summary[1]["category"] == "Category 2"
+    assert summary[1]["count"] == 1
+    assert summary[1]["costs"] == 20
+    assert summary[2]["category"] == "Category 3"
+    assert summary[2]["count"] == 1
+    assert summary[2]["costs"] == 30
+
