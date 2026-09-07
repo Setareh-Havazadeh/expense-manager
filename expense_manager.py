@@ -1,8 +1,6 @@
 from datetime import date
 import json
 import os
-import re
-from input_handler import InputHandler
 
 
 class ExpenseManager:
@@ -15,7 +13,6 @@ class ExpenseManager:
             self.expenses = []
 
         self.budget = 0
-        self.input_handler = InputHandler()
 
     def find_expenses(self, find):
         results = []
@@ -69,10 +66,6 @@ class ExpenseManager:
     def show_expenses(self):
         return self.expenses
 
-    def search_expenses(self, search):
-        result = self.find_expenses(search)
-        return result
-
     def edit_expense(self, expense, new_title, new_amount, new_category):
 
         if expense in self.expenses:
@@ -116,13 +109,3 @@ class ExpenseManager:
 
     def set_budget(self, budget):
         self.budget = budget
-
-    def show_budget(self):
-        total = self.total_expenses()
-        remaining = self.budget - total
-        if self.budget:
-            print(
-                f"Budget: {self.budget}, Total Expenses: {total}, Remaining Budget: {remaining}"
-            )
-        else:
-            print("Your total budget is empty; please enter an amount and try again.")
