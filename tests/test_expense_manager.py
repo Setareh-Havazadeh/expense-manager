@@ -412,6 +412,7 @@ def test_edit_expense():
     assert expense_manager.expenses[0]["category"] == "Category 5"
     assert expense_manager.expenses[0]["date"] == "2023-01-01"
 
+
 def test_edit_expense_invalid_expense():
     expense_manager = ExpenseManager()
     expense_manager.expenses = [
@@ -440,6 +441,7 @@ def test_edit_expense_invalid_expense():
     assert expense_manager.expenses[0]["title"] == "Expense 1"
     assert expense_manager.expenses[0]["amount"] == 10
     assert expense_manager.expenses[0]["category"] == "Category 1"
+
 
 def test_edit_expense_only_selected_expense():
     expense_manager = ExpenseManager()
@@ -473,6 +475,7 @@ def test_edit_expense_only_selected_expense():
     assert expense_manager.expenses[1]["category"] == "Category 2"
     assert expense_manager.expenses[1]["date"] == "2023-01-02"
 
+
 def test_edit_expense_save():
     expense_manager = ExpenseManager()
     expense_manager.expenses = [
@@ -494,9 +497,10 @@ def test_edit_expense_save():
     with open("expenses.json", "r", encoding="utf-8") as file:
         data = json.load(file)
 
-    assert data[0]["title"] ==  "Expense 5"
+    assert data[0]["title"] == "Expense 5"
     assert data[0]["amount"] == 40
     assert data[0]["category"] == "Category 5"
+
 
 def test_delete_expense():
     expense_manager = ExpenseManager()
@@ -519,6 +523,7 @@ def test_delete_expense():
 
     assert len(expense_manager.expenses) == 1
     assert expense_manager.expenses[0]["title"] == "Expense 2"
+
 
 def test_delete_expense_invalid():
     expense_manager = ExpenseManager()
@@ -569,6 +574,7 @@ def test_delete_expense_save():
     assert len(data) == 1
     assert data[0]["title"] == "Expense 2"
 
+
 def test_budget_management():
     expense_manager = ExpenseManager()
     expense_manager.expenses = [
@@ -588,6 +594,7 @@ def test_budget_management():
     expense_manager.set_budget(100)
 
     assert expense_manager.budget == 100
+
 
 def test_budget_management_negative():
     expense_manager = ExpenseManager()
@@ -609,7 +616,7 @@ def test_budget_management_negative():
 
     assert expense_manager.budget == -50
 
-    
+
 def test_budget_management_remaining():
     expense_manager = ExpenseManager()
     expense_manager.expenses = [
@@ -630,6 +637,82 @@ def test_budget_management_remaining():
     total_expenses = expense_manager.total_expenses()
     remaining_budget = expense_manager.budget - total_expenses
 
-
     assert total_expenses == 30
-    assert remaining_budget ==70
+    assert remaining_budget == 70
+
+def test_statistics_expenses():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+        {
+            "title": "Expense 3",
+            "amount": 30,
+            "category": "Category 1",
+            "date": "2023-01-03",
+        },
+    ]
+
+    expense_statistic, category_statistics = expense_manager.statistics()
+
+    assert expense_statistic["Total Expenses"] == 60
+    assert expense_statistic["Number of Expenses"] == 3
+    assert expense_statistic["Maximum Expense"] == 30
+    assert expense_statistic["Minimum Expense"] == 10
+    assert expense_statistic["Average Expense"] == 20.0
+
+    assert len(category_statistics) == 2
+
+def test_statistics_expenses_empty():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = []
+
+    expense_statistic, category_statistics = expense_manager.statistics()
+
+    assert expense_statistic["Total Expenses"] == 0
+    assert expense_statistic["Number of Expenses"] == 0
+    assert category_statistics  == []
+
+
+def test_statistics_expenses_category_summary():
+    expense_manager = ExpenseManager()
+    expense_manager.expenses = [
+        {
+            "title": "Expense 1",
+            "amount": 10,
+            "category": "Category 1",
+            "date": "2023-01-01",
+        },
+        {
+            "title": "Expense 2",
+            "amount": 20,
+            "category": "Category 2",
+            "date": "2023-01-02",
+        },
+        {
+            "title": "Expense 3",
+            "amount": 30,
+            "category": "Category 1",
+            "date": "2023-01-03",
+        },
+    ]
+
+    _, category_statistics = expense_manager.statistics()
+
+    assert len(category_statistics) == 2
+    assert category_statistics[0]["category"] == "Category 1"
+    assert category_statistics[0]["count"] == 2
+    assert category_statistics[0]["costs"] == 40
+    assert category_statistics[1]["category"] == "Category 2"
+    assert category_statistics[1]["count"] == 1
+    assert category_statistics[1]["costs"] == 20
