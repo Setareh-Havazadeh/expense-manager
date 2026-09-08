@@ -85,27 +85,33 @@ class ExpenseManager:
         return sum(expense_amounts)
 
     def statistics(self):
-        expense_statistic = {}
-        number = len(self.expenses)
+        expense_statistic = {"Total Expenses" : 0, "Number of Expenses": 0, "Maximum Expense": None, "Minimum Expense": None, "Average Expense": None}
 
-        expense_amounts = self.get_expense_amounts()
-
-        total_costs = sum(expense_amounts)
-
-        max_cost = max(expense_amounts)
-
-        min_cost = min(expense_amounts)
-
-        average_cost = sum(expense_amounts) / len(expense_amounts)
-
-        expense_statistic["Total Expenses"] = total_costs
-        expense_statistic["Number of Expenses"] = number
-        expense_statistic["Maximum Expense"] = max_cost
-        expense_statistic["Minimum Expense"] = min_cost
-        expense_statistic["Average Expense"] = average_cost
 
         category_statistics = self.category_summary()
-        return expense_statistic, category_statistics
+
+        if self.expenses:
+            number = len(self.expenses)
+
+            expense_amounts = self.get_expense_amounts()
+
+            total_costs = sum(expense_amounts)
+
+            max_cost = max(expense_amounts)
+
+            min_cost = min(expense_amounts)
+
+            average_cost = sum(expense_amounts) / len(expense_amounts)
+
+            expense_statistic["Total Expenses"] = total_costs
+            expense_statistic["Number of Expenses"] = number
+            expense_statistic["Maximum Expense"] = max_cost
+            expense_statistic["Minimum Expense"] = min_cost
+            expense_statistic["Average Expense"] = average_cost
+
+            return expense_statistic, category_statistics
+        else:
+            return expense_statistic, category_statistics
 
     def set_budget(self, budget):
         self.budget = budget
